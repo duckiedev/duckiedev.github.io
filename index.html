@@ -1,1 +1,713 @@
-hello world
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jed Shirley - IT Professional</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 1s ease forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .name {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item:hover {
+            color: #667eea;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .section.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: #764ba2;
+            transition: width 0.5s ease;
+        }
+
+        .section:hover .section-title::after {
+            width: 100%;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            color: #555;
+            text-align: justify;
+            line-height: 1.8;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .skill-category {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-category:hover {
+            transform: scale(1.02);
+        }
+
+        .skill-category h4 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .skill-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .job {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .job:hover {
+            transform: translateX(10px);
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .job-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .company {
+            font-size: 1.1rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .job-date {
+            color: #888;
+            font-weight: 500;
+        }
+
+        .job-duties {
+            list-style: none;
+        }
+
+        .job-duties li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .job-duties li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-size: 0.8rem;
+        }
+
+        .education-item {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .education-item:hover {
+            transform: scale(1.02);
+        }
+
+        .nav-dots {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: #667eea;
+            transform: scale(1.3);
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .download-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .name { font-size: 2.5rem; }
+            .contact-info { flex-direction: column; align-items: center; gap: 15px; }
+            .nav-dots { display: none; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .job-header { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements" id="floatingElements"></div>
+    
+    <div class="container">
+        <header class="header" id="header">
+            <h1 class="name">JED SHIRLEY</h1>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>📍</span>
+                    <span>16730 Barcelona Dr. Friendswood, TX 77546</span>
+                </div>
+                <div class="contact-item">
+                    <span>📞</span>
+                    <span>832-341-8124</span>
+                </div>
+                <div class="contact-item">
+                    <span>✉️</span>
+                    <span>jshirley1990@gmail.com</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="section" id="about">
+            <h2 class="section-title">About Me</h2>
+            <p class="about-text">
+                <strong>Seasoned Information Technology Professional</strong> with more than 11 years of comprehensive IT and customer support. Committed to providing solutions that drive business with cost efficiency in mind. Learned that working smarter is often better than working harder, with an eagerness to build upon foundations of learning. Passionate about the future, forward-thinking solutions, improving the lives of others, automated solutions, customer satisfaction, my family, and video games. Looking to join a team where these passions can add value to the projects and culture of the team.
+            </p>
+        </section>
+
+        <section class="section" id="skills">
+            <h2 class="section-title">Core Skills & Qualifications</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h4>Programming Languages (Proficient)</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">C#</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">VBA</span>
+                        <span class="skill-tag">VB.NET</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h4>Programming Languages (Familiar)</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">NodeJS</span>
+                        <span class="skill-tag">ElectronJS</span>
+                        <span class="skill-tag">HTML5</span>
+                        <span class="skill-tag">CSS</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Linux BASH</span>
+                        <span class="skill-tag">Windows Terminal</span>
+                        <span class="skill-tag">GBZ80</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h4>Development Tools</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Visual Studio</span>
+                        <span class="skill-tag">VS Code</span>
+                        <span class="skill-tag">SQL Server Management Studio</span>
+                        <span class="skill-tag">Eclipse IDE</span>
+                        <span class="skill-tag">Godot 4</span>
+                        <span class="skill-tag">Git</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h4>Business Tools</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Microsoft Office Suite</span>
+                        <span class="skill-tag">HubSpot</span>
+                        <span class="skill-tag">JIRA</span>
+                        <span class="skill-tag">Trello</span>
+                        <span class="skill-tag">Slack</span>
+                        <span class="skill-tag">Putty</span>
+                        <span class="skill-tag">WinSCP</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h4>Cool Stuff & Other Skills</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Open-source software</span>
+                        <span class="skill-tag">Pixel art</span>
+                        <span class="skill-tag">FL Studio</span>
+                        <span class="skill-tag">Technical Documentation</span>
+                        <span class="skill-tag">Customer Support</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="experience">
+            <h2 class="section-title">Work Experience</h2>
+            
+            <div class="job">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Application Support Representative</div>
+                        <div class="company">Harris Computer / TeamKeeper (formerly GHG Corporation / Clockwise)</div>
+                    </div>
+                    <div class="job-date">June 2017 - Current</div>
+                </div>
+                <ul class="job-duties">
+                    <li>Primary SQL Report developer for both internal and customer use, ranging from simple to complex through gathering proper requirements, including custom procedures, functions, and automated jobs.</li>
+                    <li>Developed an internal tool for CRM data migration from HappyFox to HubSpot utilizing APIs in Java.</li>
+                    <li>Developed SQL scripts and technical process for a major project migrating multi-tenant schemas to single databases.</li>
+                    <li>Tested upcoming releases for known issues in previous releases.</li>
+                    <li>Created and updated Excel VBA macros that convert customer data to our software's format.</li>
+                    <li>Provide customer and technical support for online time and attendance software.</li>
+                    <li>Documented call, chat and email correspondence by including customer information, issue, time spent, tagging and resolution.</li>
+                    <li>Contributed technical knowledge base articles.</li>
+                    <li>Remotely accessed customers' desktop to guide them through correcting their issue.</li>
+                    <li>Utilized Linux commands via Putty (SSH) to patch or update customer sites.</li>
+                    <li>Accessed application files on various servers via WinSCP for troubleshooting.</li>
+                    <li>Troubleshoot a variety of punch clocks remotely using TFTP and Telnet.</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Credit Insurance Division Reinsurance Administrator</div>
+                        <div class="company">American National Insurance Corporation</div>
+                    </div>
+                    <div class="job-date">January 2015 - June 2017</div>
+                </div>
+                <ul class="job-duties">
+                    <li>Process monthly business reports by gathering large amounts of data (bank statements, databases) and generating reports, and letters.</li>
+                    <li>Record keeping, creating and sending out checks and letters.</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Credit Insurance Division Customer Service & Mail Disbursement</div>
+                        <div class="company">American National Insurance Corporation</div>
+                    </div>
+                    <div class="job-date">January 2012 - December 2014</div>
+                </div>
+                <ul class="job-duties">
+                    <li>Opened, counted, sorted, stamped, processed, and passed out my department's mail.</li>
+                    <li>Tracked mail count in Excel, processed hundreds of incoming mail correspondences, wrote letters and processed premium refund cancellations.</li>
+                    <li>Provided comprehensive phone customer support.</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Credit Insurance Division Lead Accounting Clerk</div>
+                        <div class="company">American National Insurance Corporation</div>
+                    </div>
+                    <div class="job-date">November 2010 - January 2012</div>
+                </div>
+                <ul class="job-duties">
+                    <li>Edited and processed batches of new GAP and Credit Life/Disability insurance policies to ensure that any errors are properly addressed for processing premium refund cancellations.</li>
+                    <li>Prepared checks to be cut, provided customer phone support, underwriting on insurance policies to ensure eligibility, mailed out company billing statements.</li>
+                    <li>Became equipped with the basics of batch document scanning and faxing.</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Client Support Group Technician - Contract</div>
+                        <div class="company">American National Insurance Corporation</div>
+                    </div>
+                    <div class="job-date">January 2010 - March 2010</div>
+                </div>
+                <ul class="job-duties">
+                    <li>Installed, configured, database, logged, and deployed several thousand tablet PC's to the company's field Insurance Agents.</li>
+                    <li>Successfully troubleshoot errors to ensure flawless execution of the process.</li>
+                    <li>Evaluated hard drives, determining quality and if needed disposed of.</li>
+                    <li>Accompanied co-workers on ticket runs to learn and assist with technical issues.</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Client Support Group Technician - Internship</div>
+                        <div class="company">American National Insurance Corporation</div>
+                    </div>
+                    <div class="job-date">January 2009 - September 2009</div>
+                </div>
+                <ul class="job-duties">
+                    <li>Completed the company's Hurricane Ike Recovery project consisting of packing monitors used in make-shift workstations immediately following the storm.</li>
+                    <li>Assembled into proper packaging with designated company identification number, organized in the storage room, and updated the tracking in the company's database.</li>
+                    <li>Hired after High School graduation as a full-time intern.</li>
+                    <li>Projects consisted of replacing memory/video cards, hard drives, assisting with ticket runs and troubleshooting user tickets, installing and configuring drivers and software, and installing new printers/monitors to various departments throughout the company.</li>
+                    <li>Documented the Client Service Group/IT Team's guidelines on proper driver installation for a new roll-out of Dell laptops.</li>
+                    <li>Analyzed hundreds of Windows Mobile PDA's to determine which were salvageable and re-installed if able.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section" id="education">
+            <h2 class="section-title">Education</h2>
+            <div class="education-item">
+                <h3>Clear Creek High School '09</h3>
+                <p><strong>Diploma in Technology; 3.0 GPA</strong></p>
+                <p><strong>Courses Completed:</strong></p>
+                <ul style="margin-top: 10px; padding-left: 20px;">
+                    <li>Computer Applications, including Word, Excel & PowerPoint, with an emphasis in AutoCAD</li>
+                    <li>Web Mastering I & II, including HTML, Adobe Dreamweaver & Photoshop</li>
+                    <li>Digital Electronic emphasizing the basics of assembling simple circuits and running in a software simulation</li>
+                    <li>Digital Graphics & Animation, with an emphasis in Illustrator, Photoshop, Flash</li>
+                </ul>
+            </div>
+            <div class="education-item">
+                <h3>Udemy</h3>
+                <p><strong>Courses Completed:</strong></p>
+                <ul style="margin-top: 10px; padding-left: 20px;">
+                    <li>Full Stack Development with Java, MS SQL, Spring, Hibernate</li>
+                    <li>Build a Responsive Website with a Modern Flat Design</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section" id="references">
+            <h2 class="section-title">References</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div style="background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); padding: 20px; border-radius: 10px;">
+                    <strong>Shawn McGinty</strong><br>
+                    951-442-5743
+                </div>
+                <div style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); padding: 20px; border-radius: 10px;">
+                    <strong>Brian Shukwit</strong><br>
+                    951-850-0121
+                </div>
+                <div style="background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%); padding: 20px; border-radius: 10px;">
+                    <strong>Nathaniel Fields</strong><br>
+                    832-597-4803
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="nav-dots">
+        <div class="nav-dot active" data-section="header"></div>
+        <div class="nav-dot" data-section="about"></div>
+        <div class="nav-dot" data-section="skills"></div>
+        <div class="nav-dot" data-section="experience"></div>
+        <div class="nav-dot" data-section="education"></div>
+        <div class="nav-dot" data-section="references"></div>
+    </div>
+
+    <button class="download-btn" onclick="downloadResume()">📄 Download PDF</button>
+
+    <script>
+        // Floating elements animation
+        function createFloatingElements() {
+            const container = document.getElementById('floatingElements');
+            for (let i = 0; i < 50; i++) {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                element.style.left = Math.random() * 100 + '%';
+                element.style.top = Math.random() * 100 + '%';
+                element.style.animationDelay = Math.random() * 6 + 's';
+                element.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                container.appendChild(element);
+            }
+        }
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Navigation dots functionality
+        function updateNavDots() {
+            const sections = document.querySelectorAll('.section, .header');
+            const navDots = document.querySelectorAll('.nav-dot');
+            
+            let currentSection = 0;
+            sections.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+                    currentSection = index;
+                }
+            });
+
+            navDots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSection);
+            });
+        }
+
+        // Smooth scroll to sections
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Skill tag interactions
+        function addSkillTagInteractions() {
+            const skillTags = document.querySelectorAll('.skill-tag');
+            skillTags.forEach(tag => {
+                tag.addEventListener('click', () => {
+                    tag.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        tag.style.transform = '';
+                    }, 200);
+                });
+            });
+        }
+
+        // Download resume function
+        function downloadResume() {
+            alert('PDF download functionality would be implemented here. For now, you can print this page or save as PDF using your browser.');
+        }
+
+        // Typing effect for name
+        function typeEffect() {
+            const nameElement = document.querySelector('.name');
+            const text = 'JED SHIRLEY';
+            nameElement.innerHTML = '';
+            
+            let i = 0;
+            const timer = setInterval(() => {
+                nameElement.innerHTML += text[i];
+                i++;
+                if (i >= text.length) {
+                    clearInterval(timer);
+                }
+            }, 100);
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            createFloatingElements();
+            
+            // Observe all sections
+            document.querySelectorAll('.section').forEach(section => {
+                observer.observe(section);
+            });
+
+            // Navigation dots click events
+            document.querySelectorAll('.nav-dot').forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const sectionId = dot.getAttribute('data-section');
+                    scrollToSection(sectionId);
+                });
+            });
+
+            // Scroll event for navigation dots
+            window.addEventListener('scroll', updateNavDots);
+
+            // Add skill tag interactions
+            addSkillTagInteractions();
+
+            // Initial visibility for header
+            setTimeout(() => {
+                document.querySelector('.header').classList.add('visible');
+            }, 500);
+        });
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.floating-elements');
+            const speed = scrolled * 0.5;
+            parallax.style.transform = `translateY(${speed}px)`;
+        });
+
+        // Add hover effects to job items
+        document.addEventListener('DOMContentLoaded', () => {
+            const jobs = document.querySelectorAll('.job');
+            jobs.forEach(job => {
+                job.addEventListener('mouseenter', () => {
+                    job.style.transform = 'translateX(10px) scale(1.02)';
+                });
+                job.addEventListener('mouseleave', () => {
+                    job.style.transform = 'translateX(10px) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
