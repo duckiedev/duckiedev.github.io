@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jed Shirley - IT Professional</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         * {
             margin: 0;
@@ -404,7 +405,63 @@
             box-shadow: 0 15px 40px rgba(230, 0, 18, 0.4);
         }
 
-        @media (max-width: 768px) {
+        .phone-reveal-btn {
+            background: linear-gradient(45deg, #e60012, #0066cc);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(230, 0, 18, 0.2);
+        }
+
+        .phone-reveal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(230, 0, 18, 0.3);
+        }
+
+        .phone-reveal-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .recaptcha-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .recaptcha-modal {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .recaptcha-modal h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .recaptcha-modal p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
             .name { font-size: 2.5rem; }
             .contact-info { flex-direction: column; align-items: center; gap: 15px; }
             .skills-grid { grid-template-columns: 1fr; }
@@ -425,7 +482,6 @@
             .container {
                 margin-left: 0;
             }
-        }
     </style>
 </head>
 <body>
@@ -454,15 +510,15 @@
             <div class="contact-info">
                 <div class="contact-item">
                     <span>📍</span>
-                    <span>16730 Barcelona Dr. Friendswood, TX 77546</span>
+                    <span>Located in Friendswood, TX</span>
                 </div>
                 <div class="contact-item">
                     <span>📞</span>
-                    <span>832-341-8124</span>
+                    <button class="phone-reveal-btn" onclick="showRecaptcha()" data-phone="832-341-8124">Reveal Phone Number</button>
                 </div>
                 <div class="contact-item">
                     <span>✉️</span>
-                    <span>jshirley1990@gmail.com</span>
+                    <span>jed.shirley@proton.me</span>
                 </div>
             </div>
         </header>
@@ -671,15 +727,15 @@
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
                 <div style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); padding: 20px; border-radius: 10px; border-left: 4px solid #e60012; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
                     <strong>Shawn McGinty</strong><br>
-                    951-442-5743
+                    <button class="phone-reveal-btn" onclick="showRecaptcha()" data-phone="951-442-5743">Reveal Phone Number</button>
                 </div>
                 <div style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); padding: 20px; border-radius: 10px; border-left: 4px solid #0066cc; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
                     <strong>Brian Shukwit</strong><br>
-                    951-850-0121
+                    <button class="phone-reveal-btn" onclick="showRecaptcha()" data-phone="951-850-0121">Reveal Phone Number</button>
                 </div>
                 <div style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); padding: 20px; border-radius: 10px; border-left: 4px solid #e60012; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
                     <strong>Nathaniel Fields</strong><br>
-                    832-597-4803
+                    <button class="phone-reveal-btn" onclick="showRecaptcha()" data-phone="832-597-4803">Reveal Phone Number</button>
                 </div>
             </div>
         </section>
@@ -695,6 +751,17 @@
     </div>
 
     <button class="download-btn" onclick="downloadResume()">📄 Download PDF</button>
+
+    <!-- reCAPTCHA Modal -->
+    <div class="recaptcha-container" id="recaptchaContainer">
+        <div class="recaptcha-modal">
+            <h3>🔒 Verify to View Contact Information</h3>
+            <p>Please complete the security verification below to reveal phone numbers.</p>
+            <div class="g-recaptcha" data-sitekey="6LcbfporAAAAACrw2-P70SyD8WS_jDDY0DNXI2K6" data-callback="onRecaptchaSuccess" data-expired-callback="onRecaptchaExpired"></div>
+            <br>
+            <button onclick="closeRecaptcha()" style="background: #666; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Cancel</button>
+        </div>
+    </div>
 
     <script>
         // Floating elements animation
@@ -777,25 +844,73 @@
             });
         }
 
+        // reCAPTCHA functionality
+        let phoneNumbersRevealed = false;
+
+        function showRecaptcha() {
+            if (phoneNumbersRevealed) {
+                // If already verified, don't show reCAPTCHA again
+                return;
+            }
+            
+            const container = document.getElementById('recaptchaContainer');
+            container.style.display = 'flex';
+        }
+
+        function closeRecaptcha() {
+            const container = document.getElementById('recaptchaContainer');
+            container.style.display = 'none';
+        }
+
+        function onRecaptchaSuccess(token) {
+            // Verify the token (in a real implementation, you'd send this to your server)
+            console.log('reCAPTCHA verified:', token);
+            
+            // Mark as verified
+            phoneNumbersRevealed = true;
+            
+            // Reveal all phone numbers
+            revealAllPhoneNumbers();
+            
+            // Close the modal
+            closeRecaptcha();
+        }
+
+        function onRecaptchaExpired() {
+            console.log('reCAPTCHA expired');
+        }
+
+        function revealAllPhoneNumbers() {
+            const phoneButtons = document.querySelectorAll('.phone-reveal-btn');
+            
+            phoneButtons.forEach(button => {
+                const phoneNumber = button.getAttribute('data-phone');
+                
+                // Create a span element with the phone number
+                const phoneSpan = document.createElement('span');
+                phoneSpan.textContent = phoneNumber;
+                phoneSpan.style.color = '#333';
+                phoneSpan.style.fontWeight = '500';
+                
+                // Add a small animation
+                phoneSpan.style.opacity = '0';
+                phoneSpan.style.transform = 'translateY(10px)';
+                phoneSpan.style.transition = 'all 0.3s ease';
+                
+                // Replace the button with the phone number
+                button.parentNode.replaceChild(phoneSpan, button);
+                
+                // Animate in
+                setTimeout(() => {
+                    phoneSpan.style.opacity = '1';
+                    phoneSpan.style.transform = 'translateY(0)';
+                }, 100);
+            });
+        }
+
         // Download resume function
         function downloadResume() {
             alert('PDF download functionality would be implemented here. For now, you can print this page or save as PDF using your browser.');
-        }
-
-        // Typing effect for name
-        function typeEffect() {
-            const nameElement = document.querySelector('.name');
-            const text = 'JED SHIRLEY';
-            nameElement.innerHTML = '';
-            
-            let i = 0;
-            const timer = setInterval(() => {
-                nameElement.innerHTML += text[i];
-                i++;
-                if (i >= text.length) {
-                    clearInterval(timer);
-                }
-            }, 100);
         }
 
         // Initialize everything
