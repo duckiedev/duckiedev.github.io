@@ -81,12 +81,13 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 15px;
-            padding: 30px;
+            padding: 0;
             margin-bottom: 25px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             transform: translateY(20px);
             opacity: 0;
             transition: all 0.3s ease;
+            overflow: hidden;
         }
 
         .section.visible {
@@ -99,14 +100,33 @@
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
         }
 
+        .section-header {
+            padding: 30px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .section-header:hover {
+            background: rgba(230, 0, 18, 0.02);
+        }
+
+        .section-header.expanded {
+            background: rgba(230, 0, 18, 0.05);
+        }
+
         .section-title {
             font-size: 2rem;
             font-weight: 600;
             color: #333;
-            margin-bottom: 20px;
+            margin: 0;
             padding-bottom: 10px;
             border-bottom: 3px solid #e60012;
             position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .section-title::after {
@@ -122,6 +142,42 @@
 
         .section:hover .section-title::after {
             width: 100%;
+        }
+
+        .expand-icon {
+            font-size: 1.5rem;
+            color: #e60012;
+            transition: transform 0.3s ease;
+            user-select: none;
+        }
+
+        .expand-icon.expanded {
+            transform: rotate(180deg);
+            color: #0066cc;
+        }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+            padding: 0 30px;
+        }
+
+        .section-content.expanded {
+            max-height: 2000px;
+            padding: 0 30px 30px 30px;
+        }
+
+        .section-preview {
+            color: #666;
+            font-size: 0.95rem;
+            margin-top: 10px;
+            opacity: 0.8;
+            font-style: italic;
+        }
+
+        .section-header.expanded .section-preview {
+            display: none;
         }
 
         .about-text {
@@ -462,26 +518,27 @@
             margin-bottom: 20px;
             line-height: 1.6;
         }
-            .name { font-size: 2.5rem; }
-            .contact-info { flex-direction: column; align-items: center; gap: 15px; }
-            .skills-grid { grid-template-columns: 1fr; }
-            .job-header { flex-direction: column; }
-            
-            .side-nav {
-                transform: translateX(-100%);
-            }
-            
-            .side-nav.open {
-                transform: translateX(0);
-            }
-            
-            .nav-toggle {
-                display: block;
-            }
-            
-            .container {
-                margin-left: 0;
-            }
+        
+        .name { font-size: 2.5rem; }
+        .contact-info { flex-direction: column; align-items: center; gap: 15px; }
+        .skills-grid { grid-template-columns: 1fr; }
+        .job-header { flex-direction: column; }
+        
+        .side-nav {
+            transform: translateX(-100%);
+        }
+        
+        .side-nav.open {
+            transform: translateX(0);
+        }
+        
+        .nav-toggle {
+            display: block;
+        }
+        
+        .container {
+            margin-left: 0;
+        }
     </style>
 </head>
 <body>
@@ -510,7 +567,7 @@
             <div class="contact-info">
                 <div class="contact-item">
                     <span>📍</span>
-                    <span>Located in Friendswood, TX</span>
+                    <span>16730 Barcelona Dr. Friendswood, TX 77546</span>
                 </div>
                 <div class="contact-item">
                     <span>📞</span>
@@ -518,83 +575,106 @@
                 </div>
                 <div class="contact-item">
                     <span>✉️</span>
-                    <span>jed.shirley@proton.me</span>
+                    <span>jshirley1990@gmail.com</span>
                 </div>
             </div>
         </header>
 
         <section class="section" id="about">
-            <h2 class="section-title">About Me</h2>
-            <p class="about-text">
-                <strong>Seasoned Information Technology Professional</strong> with more than 11 years of comprehensive IT and customer support. Committed to providing solutions that drive business with cost efficiency in mind. Learned that working smarter is often better than working harder, with an eagerness to build upon foundations of learning. Passionate about the future, forward-thinking solutions, improving the lives of others, automated solutions, customer satisfaction, my family, and video games. Looking to join a team where these passions can add value to the projects and culture of the team.
-            </p>
+            <div class="section-header" onclick="toggleSection('about')">
+                <h2 class="section-title">
+                    About Me
+                    <span class="expand-icon">▼</span>
+                </h2>
+                <div class="section-preview">Seasoned IT Professional with 11+ years experience...</div>
+            </div>
+            <div class="section-content">
+                <p class="about-text">
+                    <strong>Seasoned Information Technology Professional</strong> with more than 11 years of comprehensive IT and customer support. Committed to providing solutions that drive business with cost efficiency in mind. Learned that working smarter is often better than working harder, with an eagerness to build upon foundations of learning. Passionate about the future, forward-thinking solutions, improving the lives of others, automated solutions, customer satisfaction, my family, and video games. Looking to join a team where these passions can add value to the projects and culture of the team.
+                </p>
+            </div>
         </section>
 
         <section class="section" id="skills">
-            <h2 class="section-title">Core Skills & Qualifications</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h4>Programming Languages (Proficient)</h4>
-                    <div class="skill-tags">
-                        <span class="skill-tag">C#</span>
-                        <span class="skill-tag">Java</span>
-                        <span class="skill-tag">SQL</span>
-                        <span class="skill-tag">VBA</span>
-                        <span class="skill-tag">VB.NET</span>
+            <div class="section-header" onclick="toggleSection('skills')">
+                <h2 class="section-title">
+                    Core Skills & Qualifications
+                    <span class="expand-icon">▼</span>
+                </h2>
+                <div class="section-preview">Programming languages, development tools, business applications...</div>
+            </div>
+            <div class="section-content">
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h4>Programming Languages (Proficient)</h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">C#</span>
+                            <span class="skill-tag">Java</span>
+                            <span class="skill-tag">SQL</span>
+                            <span class="skill-tag">VBA</span>
+                            <span class="skill-tag">VB.NET</span>
+                        </div>
                     </div>
-                </div>
-                <div class="skill-category">
-                    <h4>Programming Languages (Familiar)</h4>
-                    <div class="skill-tags">
-                        <span class="skill-tag">JavaScript</span>
-                        <span class="skill-tag">NodeJS</span>
-                        <span class="skill-tag">ElectronJS</span>
-                        <span class="skill-tag">HTML5</span>
-                        <span class="skill-tag">CSS</span>
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">Linux BASH</span>
-                        <span class="skill-tag">Windows Terminal</span>
-                        <span class="skill-tag">GBZ80</span>
+                    <div class="skill-category">
+                        <h4>Programming Languages (Familiar)</h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">NodeJS</span>
+                            <span class="skill-tag">ElectronJS</span>
+                            <span class="skill-tag">HTML5</span>
+                            <span class="skill-tag">CSS</span>
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">Linux BASH</span>
+                            <span class="skill-tag">Windows Terminal</span>
+                            <span class="skill-tag">GBZ80</span>
+                        </div>
                     </div>
-                </div>
-                <div class="skill-category">
-                    <h4>Development Tools</h4>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Visual Studio</span>
-                        <span class="skill-tag">VS Code</span>
-                        <span class="skill-tag">SQL Server Management Studio</span>
-                        <span class="skill-tag">Eclipse IDE</span>
-                        <span class="skill-tag">Godot 4</span>
-                        <span class="skill-tag">Git</span>
+                    <div class="skill-category">
+                        <h4>Development Tools</h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Visual Studio</span>
+                            <span class="skill-tag">VS Code</span>
+                            <span class="skill-tag">SQL Server Management Studio</span>
+                            <span class="skill-tag">Eclipse IDE</span>
+                            <span class="skill-tag">Godot 4</span>
+                            <span class="skill-tag">Git</span>
+                        </div>
                     </div>
-                </div>
-                <div class="skill-category">
-                    <h4>Business Tools</h4>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Microsoft Office Suite</span>
-                        <span class="skill-tag">HubSpot</span>
-                        <span class="skill-tag">JIRA</span>
-                        <span class="skill-tag">Trello</span>
-                        <span class="skill-tag">Slack</span>
-                        <span class="skill-tag">Putty</span>
-                        <span class="skill-tag">WinSCP</span>
+                    <div class="skill-category">
+                        <h4>Business Tools</h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Microsoft Office Suite</span>
+                            <span class="skill-tag">HubSpot</span>
+                            <span class="skill-tag">JIRA</span>
+                            <span class="skill-tag">Trello</span>
+                            <span class="skill-tag">Slack</span>
+                            <span class="skill-tag">Putty</span>
+                            <span class="skill-tag">WinSCP</span>
+                        </div>
                     </div>
-                </div>
-                <div class="skill-category">
-                    <h4>Cool Stuff & Other Skills</h4>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Open-source software</span>
-                        <span class="skill-tag">Pixel art</span>
-                        <span class="skill-tag">FL Studio</span>
-                        <span class="skill-tag">Technical Documentation</span>
-                        <span class="skill-tag">Customer Support</span>
+                    <div class="skill-category">
+                        <h4>Cool Stuff & Other Skills</h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Open-source software</span>
+                            <span class="skill-tag">Pixel art</span>
+                            <span class="skill-tag">FL Studio</span>
+                            <span class="skill-tag">Technical Documentation</span>
+                            <span class="skill-tag">Customer Support</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <section class="section" id="experience">
-            <h2 class="section-title">Work Experience</h2>
+            <div class="section-header" onclick="toggleSection('experience')">
+                <h2 class="section-title">
+                    Work Experience
+                    <span class="expand-icon">▼</span>
+                </h2>
+                <div class="section-preview">11+ years from Application Support to IT Technician roles...</div>
+            </div>
+            <div class="section-content">
             
             <div class="job">
                 <div class="job-header">
@@ -697,45 +777,62 @@
                     <li>Analyzed hundreds of Windows Mobile PDA's to determine which were salvageable and re-installed if able.</li>
                 </ul>
             </div>
+            </div>
         </section>
 
         <section class="section" id="education">
-            <h2 class="section-title">Education</h2>
-            <div class="education-item">
-                <h3>Clear Creek High School '09</h3>
-                <p><strong>Diploma in Technology; 3.0 GPA</strong></p>
-                <p><strong>Courses Completed:</strong></p>
-                <ul style="margin-top: 10px; padding-left: 20px;">
-                    <li>Computer Applications, including Word, Excel & PowerPoint, with an emphasis in AutoCAD</li>
-                    <li>Web Mastering I & II, including HTML, Adobe Dreamweaver & Photoshop</li>
-                    <li>Digital Electronic emphasizing the basics of assembling simple circuits and running in a software simulation</li>
-                    <li>Digital Graphics & Animation, with an emphasis in Illustrator, Photoshop, Flash</li>
-                </ul>
+            <div class="section-header" onclick="toggleSection('education')">
+                <h2 class="section-title">
+                    Education
+                    <span class="expand-icon">▼</span>
+                </h2>
+                <div class="section-preview">High School Diploma in Technology, Udemy courses...</div>
             </div>
-            <div class="education-item">
-                <h3>Udemy</h3>
-                <p><strong>Courses Completed:</strong></p>
-                <ul style="margin-top: 10px; padding-left: 20px;">
-                    <li>Full Stack Development with Java, MS SQL, Spring, Hibernate</li>
-                    <li>Build a Responsive Website with a Modern Flat Design</li>
-                </ul>
+            <div class="section-content">
+                <div class="education-item">
+                    <h3>Clear Creek High School '09</h3>
+                    <p><strong>Diploma in Technology; 3.0 GPA</strong></p>
+                    <p><strong>Courses Completed:</strong></p>
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        <li>Computer Applications, including Word, Excel & PowerPoint, with an emphasis in AutoCAD</li>
+                        <li>Web Mastering I & II, including HTML, Adobe Dreamweaver & Photoshop</li>
+                        <li>Digital Electronic emphasizing the basics of assembling simple circuits and running in a software simulation</li>
+                        <li>Digital Graphics & Animation, with an emphasis in Illustrator, Photoshop, Flash</li>
+                    </ul>
+                </div>
+                <div class="education-item">
+                    <h3>Udemy</h3>
+                    <p><strong>Courses Completed:</strong></p>
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        <li>Full Stack Development with Java, MS SQL, Spring, Hibernate</li>
+                        <li>Build a Responsive Website with a Modern Flat Design</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
         <section class="section" id="references">
-            <h2 class="section-title">References</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                <div style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); padding: 20px; border-radius: 10px; border-left: 4px solid #e60012; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
-                    <strong>Shawn McGinty</strong><br>
-                    <button class="phone-reveal-btn" onclick="showRecaptcha()" data-phone="951-442-5743">Reveal Phone Number</button>
-                </div>
-                <div style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); padding: 20px; border-radius: 10px; border-left: 4px solid #0066cc; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
-                    <strong>Brian Shukwit</strong><br>
-                    <button class="phone-reveal-btn" onclick="showRecaptcha()" data-phone="951-850-0121">Reveal Phone Number</button>
-                </div>
-                <div style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); padding: 20px; border-radius: 10px; border-left: 4px solid #e60012; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
-                    <strong>Nathaniel Fields</strong><br>
-                    <button class="phone-reveal-btn" onclick="showRecaptcha()" data-phone="832-597-4803">Reveal Phone Number</button>
+            <div class="section-header" onclick="toggleSection('references')">
+                <h2 class="section-title">
+                    References
+                    <span class="expand-icon">▼</span>
+                </h2>
+                <div class="section-preview">Professional references available upon verification...</div>
+            </div>
+            <div class="section-content">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); padding: 20px; border-radius: 10px; border-left: 4px solid #e60012; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
+                        <strong>Shawn McGinty</strong><br>
+                        <button class="phone-reveal-btn" onclick="showRecaptcha()" data-phone="951-442-5743">Reveal Phone Number</button>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); padding: 20px; border-radius: 10px; border-left: 4px solid #0066cc; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
+                        <strong>Brian Shukwit</strong><br>
+                        <button class="phone-reveal-btn" onclick="showRecaptcha()" data-phone="951-850-0121">Reveal Phone Number</button>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); padding: 20px; border-radius: 10px; border-left: 4px solid #e60012; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
+                        <strong>Nathaniel Fields</strong><br>
+                        <button class="phone-reveal-btn" onclick="showRecaptcha()" data-phone="832-597-4803">Reveal Phone Number</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -757,7 +854,7 @@
         <div class="recaptcha-modal">
             <h3>🔒 Verify to View Contact Information</h3>
             <p>Please complete the security verification below to reveal phone numbers.</p>
-            <div class="g-recaptcha" data-sitekey="6LcbfporAAAAACrw2-P70SyD8WS_jDDY0DNXI2K6" data-callback="onRecaptchaSuccess" data-expired-callback="onRecaptchaExpired"></div>
+            <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" data-callback="onRecaptchaSuccess" data-expired-callback="onRecaptchaExpired"></div>
             <br>
             <button onclick="closeRecaptcha()" style="background: #666; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Cancel</button>
         </div>
@@ -792,7 +889,35 @@
             });
         }, observerOptions);
 
-        // Navigation functionality
+        // Section expand/collapse functionality
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            const header = section.querySelector('.section-header');
+            const content = section.querySelector('.section-content');
+            const icon = section.querySelector('.expand-icon');
+            
+            const isExpanded = content.classList.contains('expanded');
+            
+            if (isExpanded) {
+                // Collapse
+                content.classList.remove('expanded');
+                header.classList.remove('expanded');
+                icon.classList.remove('expanded');
+            } else {
+                // Expand
+                content.classList.add('expanded');
+                header.classList.add('expanded');
+                icon.classList.add('expanded');
+            }
+        }
+
+        // Initialize sections as collapsed
+        function initializeSections() {
+            const sections = document.querySelectorAll('.section-content');
+            sections.forEach(content => {
+                content.classList.remove('expanded');
+            });
+        }
         function updateActiveNavItem() {
             const sections = document.querySelectorAll('.section, .header');
             const navItems = document.querySelectorAll('.nav-item');
@@ -916,6 +1041,7 @@
         // Initialize everything
         document.addEventListener('DOMContentLoaded', () => {
             createFloatingElements();
+            initializeSections();
             
             // Observe all sections
             document.querySelectorAll('.section').forEach(section => {
