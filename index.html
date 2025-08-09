@@ -189,49 +189,100 @@
 
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
             margin-top: 20px;
         }
 
         .skill-category {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 10px;
-            padding: 20px;
-            transition: transform 0.3s ease;
-            border-left: 4px solid #e60012;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00d4ff, #ffcc00, #ff6b6b);
+            border-radius: 15px 15px 0 0;
         }
 
         .skill-category:hover {
-            transform: scale(1.02);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
         }
 
         .skill-category h4 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .skill-tags {
+        .stat-item {
             display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 8px 0;
         }
 
-        .skill-tag {
-            background: linear-gradient(45deg, #e60012, #0066cc);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
+        .stat-label {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            min-width: 120px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
-        .skill-tag:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(230, 0, 18, 0.3);
+        .stat-bar-container {
+            flex: 1;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-left: 15px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
         }
+
+        .stat-bar {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Proficiency level colors */
+        .stat-expert { background: linear-gradient(90deg, #00ff88, #00cc6a); }
+        .stat-proficient { background: linear-gradient(90deg, #ffcc00, #ff9900); }
+        .stat-familiar { background: linear-gradient(90deg, #ff6b6b, #ff4757); }
+        .stat-basic { background: linear-gradient(90deg, #74b9ff, #0984e3); }
 
         .job {
             margin-bottom: 30px;
@@ -519,25 +570,27 @@
             line-height: 1.6;
         }
         
-        .name { font-size: 2.5rem; }
-        .contact-info { flex-direction: column; align-items: center; gap: 15px; }
-        .skills-grid { grid-template-columns: 1fr; }
-        .job-header { flex-direction: column; }
-        
-        .side-nav {
-            transform: translateX(-100%);
-        }
-        
-        .side-nav.open {
-            transform: translateX(0);
-        }
-        
-        .nav-toggle {
-            display: block;
-        }
-        
-        .container {
-            margin-left: 0;
+        @media (max-width: 768px) {
+            .name { font-size: 2.5rem; }
+            .contact-info { flex-direction: column; align-items: center; gap: 15px; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .job-header { flex-direction: column; }
+            
+            .side-nav {
+                transform: translateX(-100%);
+            }
+            
+            .side-nav.open {
+                transform: translateX(0);
+            }
+            
+            .nav-toggle {
+                display: block;
+            }
+            
+            .container {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
@@ -606,60 +659,248 @@
             <div class="section-content">
                 <div class="skills-grid">
                     <div class="skill-category">
-                        <h4>Programming Languages (Proficient)</h4>
-                        <div class="skill-tags">
-                            <span class="skill-tag">C#</span>
-                            <span class="skill-tag">Java</span>
-                            <span class="skill-tag">SQL</span>
-                            <span class="skill-tag">VBA</span>
-                            <span class="skill-tag">VB.NET</span>
+                        <h4>💻 Programming Languages</h4>
+                        <div class="stat-item">
+                            <div class="stat-label">C#</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-expert" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">SQL</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-expert" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">VBA</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-expert" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Java</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-proficient" style="width: 75%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">VB.NET</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-proficient" style="width: 70%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">JavaScript</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-familiar" style="width: 60%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Python</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-familiar" style="width: 50%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">HTML5/CSS</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-familiar" style="width: 65%;"></div>
+                            </div>
                         </div>
                     </div>
+
                     <div class="skill-category">
-                        <h4>Programming Languages (Familiar)</h4>
-                        <div class="skill-tags">
-                            <span class="skill-tag">JavaScript</span>
-                            <span class="skill-tag">NodeJS</span>
-                            <span class="skill-tag">ElectronJS</span>
-                            <span class="skill-tag">HTML5</span>
-                            <span class="skill-tag">CSS</span>
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Linux BASH</span>
-                            <span class="skill-tag">Windows Terminal</span>
-                            <span class="skill-tag">GBZ80</span>
+                        <h4>🛠️ Development Tools</h4>
+                        <div class="stat-item">
+                            <div class="stat-label">Visual Studio</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-expert" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">SSMS</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-expert" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">VS Code</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-proficient" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Eclipse IDE</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-proficient" style="width: 70%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Git</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-familiar" style="width: 65%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Godot 4</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-familiar" style="width: 55%;"></div>
+                            </div>
                         </div>
                     </div>
+
                     <div class="skill-category">
-                        <h4>Development Tools</h4>
-                        <div class="skill-tags">
-                            <span class="skill-tag">Visual Studio</span>
-                            <span class="skill-tag">VS Code</span>
-                            <span class="skill-tag">SQL Server Management Studio</span>
-                            <span class="skill-tag">Eclipse IDE</span>
-                            <span class="skill-tag">Godot 4</span>
-                            <span class="skill-tag">Git</span>
+                        <h4>💼 Business Tools</h4>
+                        <div class="stat-item">
+                            <div class="stat-label">MS Office Suite</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-expert" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">HubSpot</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-proficient" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">JIRA</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-proficient" style="width: 75%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Trello</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-proficient" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Slack</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-proficient" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Putty/SSH</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-expert" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">WinSCP</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-expert" style="width: 85%;"></div>
+                            </div>
                         </div>
                     </div>
+
                     <div class="skill-category">
-                        <h4>Business Tools</h4>
-                        <div class="skill-tags">
-                            <span class="skill-tag">Microsoft Office Suite</span>
-                            <span class="skill-tag">HubSpot</span>
-                            <span class="skill-tag">JIRA</span>
-                            <span class="skill-tag">Trello</span>
-                            <span class="skill-tag">Slack</span>
-                            <span class="skill-tag">Putty</span>
-                            <span class="skill-tag">WinSCP</span>
+                        <h4>🖥️ System Administration</h4>
+                        <div class="stat-item">
+                            <div class="stat-label">Windows Server</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-proficient" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Linux BASH</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-familiar" style="width: 65%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Remote Desktop</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-expert" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Network Troubleshooting</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-proficient" style="width: 75%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Hardware Maintenance</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-expert" style="width: 85%;"></div>
+                            </div>
                         </div>
                     </div>
+
                     <div class="skill-category">
-                        <h4>Cool Stuff & Other Skills</h4>
-                        <div class="skill-tags">
-                            <span class="skill-tag">Open-source software</span>
-                            <span class="skill-tag">Pixel art</span>
-                            <span class="skill-tag">FL Studio</span>
-                            <span class="skill-tag">Technical Documentation</span>
-                            <span class="skill-tag">Customer Support</span>
+                        <h4>📊 Data & Analytics</h4>
+                        <div class="stat-item">
+                            <div class="stat-label">Database Design</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-expert" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Report Development</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-expert" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Data Migration</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-expert" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">API Integration</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-proficient" style="width: 75%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Excel Automation</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-expert" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4>🎨 Creative & Other</h4>
+                        <div class="stat-item">
+                            <div class="stat-label">Technical Writing</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-expert" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Customer Support</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-expert" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Pixel Art</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-familiar" style="width: 60%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">FL Studio</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-familiar" style="width: 55%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Game Development</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-familiar" style="width: 50%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">GBZ80 Assembly</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar stat-basic" style="width: 30%;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -889,7 +1130,23 @@
             });
         }, observerOptions);
 
-        // Section expand/collapse functionality
+        // Add skill bar animations when sections are expanded
+        function animateSkillBars(sectionId) {
+            if (sectionId === 'skills') {
+                const statBars = document.querySelectorAll('.stat-bar');
+                statBars.forEach((bar, index) => {
+                    setTimeout(() => {
+                        const width = bar.style.width;
+                        bar.style.width = '0%';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 100);
+                    }, index * 50);
+                });
+            }
+        }
+
+        // Update the toggleSection function to include skill bar animation
         function toggleSection(sectionId) {
             const section = document.getElementById(sectionId);
             const header = section.querySelector('.section-header');
@@ -908,6 +1165,11 @@
                 content.classList.add('expanded');
                 header.classList.add('expanded');
                 icon.classList.add('expanded');
+                
+                // Animate skill bars if this is the skills section
+                setTimeout(() => {
+                    animateSkillBars(sectionId);
+                }, 300);
             }
         }
 
@@ -954,19 +1216,6 @@
                     block: 'start'
                 });
             }
-        }
-
-        // Skill tag interactions
-        function addSkillTagInteractions() {
-            const skillTags = document.querySelectorAll('.skill-tag');
-            skillTags.forEach(tag => {
-                tag.addEventListener('click', () => {
-                    tag.style.transform = 'scale(1.1)';
-                    setTimeout(() => {
-                        tag.style.transform = '';
-                    }, 200);
-                });
-            });
         }
 
         // reCAPTCHA functionality
@@ -1069,9 +1318,6 @@
 
             // Scroll event for active navigation
             window.addEventListener('scroll', updateActiveNavItem);
-
-            // Add skill tag interactions
-            addSkillTagInteractions();
 
             // Initial visibility for header
             setTimeout(() => {
